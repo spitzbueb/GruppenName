@@ -1,5 +1,6 @@
 package ch.zhaw.gruppenname.application;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.*;
 
@@ -55,9 +56,17 @@ public class AddReceipt{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		contentPane = frame.getContentPane();
-		//contenPane.add()
+		contentPane.add(BorderLayout.NORTH,header());
+		contentPane.add(BorderLayout.CENTER,body());
+		contentPane.add(BorderLayout.SOUTH,footer());
 		
 		
 		frame.setVisible(true);
+	}
+	
+	private JPanel header()
+	{
+		JPanel header = new JPanel();
+		
 	}
 }
