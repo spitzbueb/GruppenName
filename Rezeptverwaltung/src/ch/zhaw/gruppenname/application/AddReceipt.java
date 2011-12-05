@@ -2,6 +2,11 @@ package ch.zhaw.gruppenname.application;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -21,7 +26,6 @@ public class AddReceipt{
 		frame = new JFrame("Rezept erfassen");
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
-		frame.setSize(700,700);
 		
 		//Datei-Menü
 		JMenu dateiMenu = new JMenu("Datei");
@@ -56,17 +60,106 @@ public class AddReceipt{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		contentPane = frame.getContentPane();
-		contentPane.add(BorderLayout.NORTH,header());
-		contentPane.add(BorderLayout.CENTER,body());
-		contentPane.add(BorderLayout.SOUTH,footer());
+		contentPane.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(0,0,20,0);
+		contentPane.add(title(),c);
 		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.insets = new Insets(0,0,5,0);
+		contentPane.add(new JLabel("Name:"),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		contentPane.add(nameTextField(),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		contentPane.add(new JLabel("Zutaten:"),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 2;
+		contentPane.add(zutatenTextField(),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 3;
+		contentPane.add(new JLabel("Beschreibung:"),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 3;
+		contentPane.add(beschreibungTextArea(),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		contentPane.add(new JLabel("Vorgehen:"),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 4;
+		contentPane.add(vorgehenTextArea(),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 5;
+		contentPane.add(new JLabel("Bewertung:"),c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 5;
+		contentPane.add(bewertungTextField(),c);
+		
+		frame.setSize(300,300);
+		frame.pack();
 		frame.setVisible(true);
 	}
 	
-	private JPanel header()
+	private JTextField bewertungTextField()
 	{
-		JPanel header = new JPanel();
+		JTextField bewertung = new JTextField(10);
+		return bewertung;
+	}
+	
+	private JTextArea vorgehenTextArea()
+	{
+		JTextArea vorgehen = new JTextArea(50,50);
+		return vorgehen;
+	}
+	
+	private JTextArea beschreibungTextArea()
+	{
+		JTextArea beschreibung = new JTextArea(50,50);
+		return beschreibung;
+	}
+	
+	private JTextField zutatenTextField()
+	{
+		JTextField zutaten = new JTextField(50);
+		return zutaten;
+	}
+	
+	private JTextField nameTextField()
+	{
+		JTextField name = new JTextField(50);
+		return name;
+	}
+	
+	private JLabel title()
+	{
 		
+		JLabel title = new JLabel("Rezept aufnehmen");
+		title.setFont(new Font("Arial",1,20));
+		return title;
 	}
 }
