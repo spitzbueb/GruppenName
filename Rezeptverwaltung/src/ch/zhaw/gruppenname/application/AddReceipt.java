@@ -1,6 +1,7 @@
 package ch.zhaw.gruppenname.application;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -120,38 +121,42 @@ public class AddReceipt{
 		c.gridy = 5;
 		contentPane.add(bewertungTextField(),c);
 		
-		frame.setSize(300,300);
 		frame.pack();
 		frame.setVisible(true);
 	}
 	
 	private JTextField bewertungTextField()
 	{
-		JTextField bewertung = new JTextField(10);
+		JTextField bewertung = new JTextField(20);
+		bewertung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return bewertung;
 	}
 	
 	private JTextArea vorgehenTextArea()
 	{
-		JTextArea vorgehen = new JTextArea(50,50);
+		JTextArea vorgehen = new JTextArea(30,20);
+		vorgehen.setBorder(BorderFactory.createLineBorder(Color.black));
 		return vorgehen;
 	}
 	
 	private JTextArea beschreibungTextArea()
 	{
-		JTextArea beschreibung = new JTextArea(50,50);
+		JTextArea beschreibung = new JTextArea(30,20);
+		beschreibung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return beschreibung;
 	}
 	
 	private JTextField zutatenTextField()
 	{
-		JTextField zutaten = new JTextField(50);
+		JTextField zutaten = new JTextField(30);
+		zutaten.setBorder(BorderFactory.createLineBorder(Color.black));
 		return zutaten;
 	}
 	
 	private JTextField nameTextField()
 	{
-		JTextField name = new JTextField(50);
+		JTextField name = new JTextField(20);
+		name.setBorder(BorderFactory.createLineBorder(Color.black));
 		return name;
 	}
 	
