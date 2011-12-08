@@ -3,6 +3,7 @@ package ch.zhaw.gruppenname.application;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -63,25 +64,25 @@ public class AddReceipt{
 		contentPane = frame.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		GridBagConstraints gdc = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.NORTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(0,10,30,0);
+		c.insets = new Insets(5,7,20,0);
 		contentPane.add(title(),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
-		c.gridwidth = 5;
+		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Name:"),c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 1;
-		c.weightx = 0.75;
+		c.gridwidth = 10;
 		c.insets = new Insets(0,0,5,10);  
 		contentPane.add(nameTextField(),c);
 		
@@ -91,7 +92,7 @@ public class AddReceipt{
 		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Zutaten:"),c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 2;
 		c.insets = new Insets(0,0,5,10);
@@ -103,7 +104,7 @@ public class AddReceipt{
 		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Beschreibung:"),c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 3;
 		c.insets = new Insets(0,0,5,10);
@@ -115,7 +116,7 @@ public class AddReceipt{
 		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Vorgehen:"),c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 4;
 		c.insets = new Insets(0,0,5,10);
@@ -127,33 +128,33 @@ public class AddReceipt{
 		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Bewertung:"),c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 5;
 		c.insets = new Insets(0,0,5,10);
 		contentPane.add(bewertungTextField(),c);
 		
-		frame.setSize(600,250);
+		frame.pack();
 		frame.setVisible(true);
 	}
 	
 	private JTextField bewertungTextField()
 	{
-		JTextField bewertung = new JTextField(20);
+		JTextField bewertung = new JTextField(30);
 		bewertung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return bewertung;
 	}
 	
 	private JTextArea vorgehenTextArea()
 	{
-		JTextArea vorgehen = new JTextArea(30,20);
+		JTextArea vorgehen = new JTextArea(10,30);
 		vorgehen.setBorder(BorderFactory.createLineBorder(Color.black));
 		return vorgehen;
 	}
 	
 	private JTextArea beschreibungTextArea()
 	{
-		JTextArea beschreibung = new JTextArea(30,20);
+		JTextArea beschreibung = new JTextArea(10,30);
 		beschreibung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return beschreibung;
 	}
@@ -167,7 +168,7 @@ public class AddReceipt{
 	
 	private JTextField nameTextField()
 	{
-		JTextField name = new JTextField(20);
+		JTextField name = new JTextField(30);
 		name.setBorder(BorderFactory.createLineBorder(Color.black));
 		return name;
 	}
