@@ -63,65 +63,77 @@ public class AddReceipt{
 		contentPane = frame.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraints gdc = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(0,0,20,0);
+		c.insets = new Insets(0,10,30,0);
 		contentPane.add(title(),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
-		c.insets = new Insets(0,0,5,0);
+		c.gridwidth = 5;
+		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Name:"),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 1;
+		c.weightx = 0.75;
+		c.insets = new Insets(0,0,5,10);  
 		contentPane.add(nameTextField(),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
+		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Zutaten:"),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
+		c.insets = new Insets(0,0,5,10);
 		contentPane.add(zutatenTextField(),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
+		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Beschreibung:"),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 3;
+		c.insets = new Insets(0,0,5,10);
 		contentPane.add(beschreibungTextArea(),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 4;
+		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Vorgehen:"),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 4;
+		c.insets = new Insets(0,0,5,10);
 		contentPane.add(vorgehenTextArea(),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 5;
+		c.insets = new Insets(0,10,5,0);
 		contentPane.add(new JLabel("Bewertung:"),c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 5;
+		c.insets = new Insets(0,0,5,10);
 		contentPane.add(bewertungTextField(),c);
 		
-		frame.pack();
+		frame.setSize(600,250);
 		frame.setVisible(true);
 	}
 	
