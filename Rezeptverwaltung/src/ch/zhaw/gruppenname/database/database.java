@@ -13,9 +13,9 @@ public class database {
 	
 	public database()
 	{
-		 username = "";
-		 password = "";
-		 url = "jdbc:mysql://login-18.hoststar.ch/usr_web313_3";
+		 username = "web313";
+		 password = "rt5adq";
+		 url = "jdbc:mysql://login-74.hoststar.ch/usr_web313_3";
 		 
 		 try {
 			try {
