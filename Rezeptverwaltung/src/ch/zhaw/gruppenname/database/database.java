@@ -9,7 +9,7 @@ import com.mysql.jdbc.Statement;
 public class database {
 	
 	private String username,password,url;
-	
+	private java.sql.Connection connect = null;
 	
 	public database()
 	{
@@ -25,7 +25,6 @@ public class database {
 				e.printStackTrace();
 			}
 			// Setup the connection with the DB
-			java.sql.Connection connect = null;
 			connect = DriverManager.getConnection(url,username,password);
 			java.sql.Statement statement = connect.createStatement();
 			
@@ -36,6 +35,17 @@ public class database {
 		 
 		 
 		 System.out.println("Erfolg!!!");
+	}
+	public void addReceipt(String title, String description, String author, int numberOfVotes, String manual) throws SQLException{
+		try {
+			java.sql.Statement s = connect.createStatement();
+			s.executeUpdate("INSERT INTO ?" + " VALUES" + "('" + title + "','" + description + "','" + author + "','" + numberOfVotes + "','" + manual + "')");
+			s.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static void main(String[] args) {
