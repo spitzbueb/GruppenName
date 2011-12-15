@@ -89,12 +89,17 @@ public class Database {
 		}		
 	}
 	
-	public void removeReceipt(String title){
+	public void removeReceipt(String receipt){
 		java.sql.Statement s;
+		ResultSet receiptidQuery = null;
+		int receiptid = 0;
 		try {
 			s = connect.createStatement();
-			//removeIngredientsOfRecieipt(id);
-			s.executeUpdate("DELETE FROM Rezept where title='" + title + "'");
+			receiptidQuery = s.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
+			receiptidQuery.next();
+			receiptid = receiptidQuery.getInt("ID");
+			removeIngredientsOfReceipt(receiptid);
+			s.executeUpdate("DELETE FROM Rezept where Name='" + receipt + "'");
 			s.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -103,7 +108,7 @@ public class Database {
 		
 	}
 	
-	public void removeIngredientsOfReceipt(String id){
+	public void removeIngredientsOfReceipt(int id){
 		java.sql.Statement s;
 		try {
 			s = connect.createStatement();
