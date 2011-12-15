@@ -109,6 +109,13 @@ public class Database {
 				e.printStackTrace();
 			}
 		}
+		
+		try {
+			s.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {

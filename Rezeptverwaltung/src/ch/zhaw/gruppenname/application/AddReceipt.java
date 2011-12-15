@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.*;
 import java.sql.SQLException;
+import ch.zhaw.gruppenname.database.Database;
 
 import javax.swing.*;
 
@@ -55,6 +56,7 @@ public class AddReceipt{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				
 				Database add = new Database();
 				try {
 					add.addReceipt(name.getText(), beschreibung.getText(), "author", Integer.parseInt(bewertung.getText()), vorgehen.getText());
@@ -71,7 +73,7 @@ public class AddReceipt{
 				System.exit(0);
 			}
 		});
-		
+
 		dateiMenu.add(safe);
 		dateiMenu.add(exit);
 		
