@@ -102,7 +102,6 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void removeIngredientsOfReceipt(int id){
@@ -119,7 +118,6 @@ public class Database {
 	public void addIngredients(String ingredients)
 	{
 		String[] zutaten = ingredients.split(",");
-		
 		java.sql.Statement s=null;
 		try {
 			s = connect.createStatement();
