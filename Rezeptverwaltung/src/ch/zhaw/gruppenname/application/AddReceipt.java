@@ -10,14 +10,19 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 import javax.swing.*;
+
+import ch.zhaw.gruppenname.database.Database;
 
 public class AddReceipt{
 	
 	private JFrame frame;
 	private JMenuBar menubar;
 	private Container contentPane;
+	private JTextField name,bewertung,zutaten;
+	private JTextArea beschreibung,vorgehen;
 	
 	public static void main(String[] args) {
 		new AddReceipt();
@@ -50,7 +55,20 @@ public class AddReceipt{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				//Klasse für Datenbankzugriff
+				Database add = new Database();
+				try {
+					add.addReceipt(name.getText(), beschreibung.getText(), "author", Integer.parseInt(bewertung.getText()), vorgehen.getText());
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				add.matchReceipt_Ingredients(name.getText(),zutaten.getText());
+
+				System.exit(0);
 			}
 		});
 		
@@ -140,35 +158,35 @@ public class AddReceipt{
 	
 	private JTextField bewertungTextField()
 	{
-		JTextField bewertung = new JTextField(30);
+		bewertung = new JTextField(30);
 		bewertung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return bewertung;
 	}
 	
 	private JTextArea vorgehenTextArea()
 	{
-		JTextArea vorgehen = new JTextArea(10,30);
+		vorgehen = new JTextArea(10,30);
 		vorgehen.setBorder(BorderFactory.createLineBorder(Color.black));
 		return vorgehen;
 	}
 	
 	private JTextArea beschreibungTextArea()
 	{
-		JTextArea beschreibung = new JTextArea(10,30);
+		beschreibung = new JTextArea(10,30);
 		beschreibung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return beschreibung;
 	}
 	
 	private JTextField zutatenTextField()
 	{
-		JTextField zutaten = new JTextField(30);
+		zutaten = new JTextField(30);
 		zutaten.setBorder(BorderFactory.createLineBorder(Color.black));
 		return zutaten;
 	}
 	
 	private JTextField nameTextField()
 	{
-		JTextField name = new JTextField(30);
+		name = new JTextField(30);
 		name.setBorder(BorderFactory.createLineBorder(Color.black));
 		return name;
 	}
