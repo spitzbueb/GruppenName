@@ -38,32 +38,40 @@ public class Database {
 	public void matchReceipt_Ingredients(String receipt, String ingredients)
 	{
 		ResultSet receiptidQuery = null;
+		ResultSet ingredientidQuery = null;
 		int receiptid = 0,ingredientid = 0;
 		String[] oneIngredient;
 		java.sql.Statement select = null;
 		try {
 			select = connect.createStatement();
 			receiptidQuery = select.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
-			receiptidQuery.beforeFirst();
-			receiptid = receiptidQuery.getInt(1);
+			receiptidQuery.next();
+			receiptid = receiptidQuery.getInt("ID");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(receiptidQuery);
-		
-		
+				
 		oneIngredient = ingredients.split(",");
 		
 		for (String string:oneIngredient)
 		{
 			try {
-				ingredientid = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + string + "'").getInt(1);
-				select.executeUpdate("INSERT INTO Zutat_Rezept(RezeptIDFS,ZutatIDFS) VALUES('" + receiptid + "'," + ingredientid + "')");
+				ingredientidQuery = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + string + "'");
+				ingredientidQuery.next();
+				ingredientid = ingredientidQuery.getInt("ID");
+				select.executeUpdate("INSERT INTO Zutaten_Rezept(RezeptIDFS,ZutatIDFS) VALUES('" + receiptid + "','" + ingredientid + "')");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		try {
+			select.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
