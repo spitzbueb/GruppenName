@@ -89,6 +89,31 @@ public class Database {
 		}		
 	}
 	
+	public void removeReceipt(String title){
+		java.sql.Statement s;
+		try {
+			s = connect.createStatement();
+			//removeIngredientsOfRecieipt(id);
+			s.executeUpdate("DELETE FROM Rezept where title='" + title + "'");
+			s.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void removeIngredientsOfReceipt(String id){
+		java.sql.Statement s;
+		try {
+			s = connect.createStatement();
+			s.executeUpdate("DELETE FROM Zutaten_Rezept where RezeptIDFS='" + id +"'");
+			s.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void addIngredients(String ingredients)
 	{
 		String[] zutaten = ingredients.split(",");
