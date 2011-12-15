@@ -4,9 +4,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mysql.*;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 public class Database {
 	
 	private String username,password,url;
