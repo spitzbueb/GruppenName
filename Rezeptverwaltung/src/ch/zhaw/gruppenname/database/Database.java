@@ -3,6 +3,7 @@ package ch.zhaw.gruppenname.database;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Database {
 	
@@ -10,12 +11,10 @@ public class Database {
 	private java.sql.Connection connect = null;
 	private java.sql.Statement statement;
 	
-	public Database()
-	{
+	public Database(){
 		 username = "web313";
 		 password = "rt5adq";
 		 url = "jdbc:mysql://login-74.hoststar.ch/usr_web313_3";
-		 
 		 try {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
@@ -25,11 +24,28 @@ public class Database {
 			}
 			// Setup the connection with the DB
 			connect = DriverManager.getConnection(url,username,password);
-			
 		 } catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+		 }
+	}
+	
+	public ArrayList<String> getAllTitles(){
+		connect();
+		ResultSet allTitlesQuery;
+		ArrayList<String> allTitles = new ArrayList<String>();	
+		try {
+			allTitlesQuery = statement.executeQuery("Select Name from Rezept");
+			while (!allTitlesQuery.isLast()){
+				allTitlesQuery.next();
+				allTitles.add(allTitlesQuery.getString("Name"));
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		close();
+		return allTitles;
 	}
 	
 	private int getReceiptId(String receipt){
@@ -66,14 +82,11 @@ public class Database {
 		return ingredientId;
 	}
 	
-	public void matchReceipt_Ingredients(String receipt, String ingredients)
-	{
+	public void matchReceipt_Ingredients(String receipt, String ingredients){
 		String[] oneIngredient;
 		connect();				
 		oneIngredient = ingredients.split(",");
-		
-		for (String string:oneIngredient)
-		{
+		for (String string:oneIngredient){
 			try {
 				statement.executeUpdate("INSERT INTO Zutaten_Rezept(RezeptIDFS,ZutatIDFS) VALUES('" + getReceiptId(receipt) + "','" + getIngredientsId(string) + "')");
 			} catch (SQLException e) {
@@ -108,12 +121,10 @@ public class Database {
 		close();
 	}
 	
-	public void addIngredients(String ingredients)
-	{
+	public void addIngredients(String ingredients){
 		String[] zutaten = ingredients.split(",");
 		connect();
-		for(String string:zutaten)
-		{
+		for(String string:zutaten){
 			try {
 				statement.executeUpdate("INSERT INTO Zutat(Name) VALUES('" + string + "')");
 			} catch (SQLException e) {
@@ -124,21 +135,21 @@ public class Database {
 		close();
 	}
 	private void connect(){
-			try {
-				statement = connect.createStatement();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			statement = connect.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void close(){
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			statement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
