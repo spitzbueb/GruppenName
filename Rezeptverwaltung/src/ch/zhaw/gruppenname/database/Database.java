@@ -24,7 +24,6 @@ public class Database {
 			}
 			// Setup the connection with the DB
 			connect = DriverManager.getConnection(url,username,password);
-			java.sql.Statement statement = connect.createStatement();
 			
 		 } catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -157,7 +156,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	private java.sql.Statement connect(java.sql.Statement s){
+	/*private java.sql.Statement connect(java.sql.Statement s){
 		try {
 			s = connect.createStatement();
 		} catch (SQLException e) {
@@ -165,7 +164,7 @@ public class Database {
 			e.printStackTrace();
 		}
 		return s;
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		new Database();
