@@ -99,7 +99,7 @@ public class Database {
 	public void removeReceipt(String receipt){
 		connect();
 		try {
-			removeIngredientsOfReceipt(getReceiptId(receipt));
+			statement.executeUpdate("DELETE FROM Zutaten_Rezept where RezeptIDFS='" + getReceiptId(receipt) +"'");
 			statement.executeUpdate("DELETE FROM Rezept where Name='" + receipt + "'");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -108,16 +108,6 @@ public class Database {
 		close();
 	}
 	
-	public void removeIngredientsOfReceipt(int id){
-		connect();
-		try {
-			statement.executeUpdate("DELETE FROM Zutaten_Rezept where RezeptIDFS='" + id +"'");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		close();
-	}
 	public void addIngredients(String ingredients)
 	{
 		String[] zutaten = ingredients.split(",");
