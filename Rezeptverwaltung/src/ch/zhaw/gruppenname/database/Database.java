@@ -10,7 +10,8 @@ public class Database {
 	private java.sql.Connection connect = null;
 	private java.sql.Statement statement;
 	
-	public Database(){
+	public Database()
+	{
 		 username = "web313";
 		 password = "rt5adq";
 		 url = "jdbc:mysql://login-74.hoststar.ch/usr_web313_3";
@@ -34,42 +35,45 @@ public class Database {
 	private int getReceiptId(String receipt){
 		ResultSet receiptIdQuery;
 		int receiptid = 0;
-		connect();
+		java.sql.Statement select;
 		try {
+			select = connect.createStatement();
 			receiptIdQuery = statement.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
 			receiptIdQuery.next();
 			receiptid = receiptIdQuery.getInt("ID");
+			select.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		close();
 		return receiptid;
 	}
 	
 	private int getIngredientsId(String ingredient){
 		int ingredientId = 0;
 		ResultSet ingredientidQuery;
-		connect();
+		java.sql.Statement select;
 		try {
-			ingredientidQuery = statement.executeQuery("SELECT ID from Zutat WHERE Name = '" + ingredient + "'");
+			select = connect.createStatement();
+			ingredientidQuery = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + ingredient + "'");
 			ingredientidQuery.next();
 			ingredientId = ingredientidQuery.getInt("ID");
-			
+			select.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		close();
 		return ingredientId;
 	}
 	
-	public void matchReceipt_Ingredients(String receipt, String ingredients) {
+	public void matchReceipt_Ingredients(String receipt, String ingredients)
+	{
 		String[] oneIngredient;
-		connect();	
+		connect();				
 		oneIngredient = ingredients.split(",");
 		
-		for (String string:oneIngredient) {
+		for (String string:oneIngredient)
+		{
 			try {
 				statement.executeUpdate("INSERT INTO Zutaten_Rezept(RezeptIDFS,ZutatIDFS) VALUES('" + getReceiptId(receipt) + "','" + getIngredientsId(string) + "')");
 			} catch (SQLException e) {
@@ -97,7 +101,6 @@ public class Database {
 		try {
 			removeIngredientsOfReceipt(getReceiptId(receipt));
 			statement.executeUpdate("DELETE FROM Rezept where Name='" + receipt + "'");
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,10 +118,12 @@ public class Database {
 		}
 		close();
 	}
-	public void addIngredients(String ingredients) {
+	public void addIngredients(String ingredients)
+	{
 		String[] zutaten = ingredients.split(",");
 		connect();
-		for(String string:zutaten){
+		for(String string:zutaten)
+		{
 			try {
 				statement.executeUpdate("INSERT INTO Zutat(Name) VALUES('" + string + "')");
 			} catch (SQLException e) {
@@ -128,27 +133,22 @@ public class Database {
 		}
 		close();
 	}
-	
 	private void connect(){
-		if (statement == null) {
 			try {
 				statement = connect.createStatement();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
 	}
 	
 	private void close(){
-		if (statement != null){
 			try {
 				statement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
 	}
 	
 	public static void main(String[] args) {
