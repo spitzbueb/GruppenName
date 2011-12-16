@@ -10,8 +10,7 @@ public class Database {
 	private java.sql.Connection connect = null;
 	private java.sql.Statement statement;
 	
-	public Database()
-	{
+	public Database(){
 		 username = "web313";
 		 password = "rt5adq";
 		 url = "jdbc:mysql://login-74.hoststar.ch/usr_web313_3";
@@ -65,14 +64,12 @@ public class Database {
 		return ingredientId;
 	}
 	
-	public void matchReceipt_Ingredients(String receipt, String ingredients)
-	{
+	public void matchReceipt_Ingredients(String receipt, String ingredients) {
 		String[] oneIngredient;
 		connect();	
 		oneIngredient = ingredients.split(",");
 		
-		for (String string:oneIngredient)
-		{
+		for (String string:oneIngredient) {
 			try {
 				statement.executeUpdate("INSERT INTO Zutaten_Rezept(RezeptIDFS,ZutatIDFS) VALUES('" + getReceiptId(receipt) + "','" + getIngredientsId(string) + "')");
 			} catch (SQLException e) {
@@ -88,7 +85,6 @@ public class Database {
 		try {
 			statement.executeUpdate("INSERT INTO Rezept(Name,Beschreibung,Author,Bewertung,Vorgehen)" + 
 				" VALUES" + "('" + title + "','" + description + "','" + author + "','" + numberOfVotes + "','" + manual + "')");
-			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,12 +115,10 @@ public class Database {
 		}
 		close();
 	}
-	public void addIngredients(String ingredients)
-	{
+	public void addIngredients(String ingredients) {
 		String[] zutaten = ingredients.split(",");
 		connect();
-		for(String string:zutaten)
-		{
+		for(String string:zutaten){
 			try {
 				statement.executeUpdate("INSERT INTO Zutat(Name) VALUES('" + string + "')");
 			} catch (SQLException e) {
@@ -136,20 +130,24 @@ public class Database {
 	}
 	
 	private void connect(){
-		try {
-			statement = connect.createStatement();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (statement == null) {
+			try {
+				statement = connect.createStatement();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	private void close(){
-		try {
-			statement.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (statement != null){
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
