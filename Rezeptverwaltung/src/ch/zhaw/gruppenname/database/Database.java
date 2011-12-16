@@ -31,19 +31,45 @@ public class Database {
 				e.printStackTrace();
 			}
 	}
+	private int getReceiptId(String receipt){
+		ResultSet receiptIdQuery;
+		int receiptid = 0;
+		java.sql.Statement select;
+		try {
+			select = connect.createStatement();
+			receiptIdQuery = select.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
+			receiptIdQuery.next();
+			receiptid = receiptIdQuery.getInt("ID");
+			select.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return receiptid;
+	}
 	
+	private int getIngredientsId(String ingredient){
+		int ingredientId = 0;
+		ResultSet ingredientidQuery;
+		java.sql.Statement select = null;
+		try {
+			select = connect.createStatement();
+			ingredientidQuery = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + ingredient + "'");
+			ingredientidQuery.next();
+			ingredientId = ingredientidQuery.getInt("ID");
+			select.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ingredientId;
+	}
 	public void matchReceipt_Ingredients(String receipt, String ingredients)
 	{
-		ResultSet receiptidQuery = null;
-		ResultSet ingredientidQuery = null;
-		int receiptid = 0,ingredientid = 0;
 		String[] oneIngredient;
 		java.sql.Statement select = null;
 		try {
 			select = connect.createStatement();
-			receiptidQuery = select.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
-			receiptidQuery.next();
-			receiptid = receiptidQuery.getInt("ID");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,25 +80,19 @@ public class Database {
 		for (String string:oneIngredient)
 		{
 			try {
-				ingredientidQuery = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + string + "'");
-				ingredientidQuery.next();
-				ingredientid = ingredientidQuery.getInt("ID");
-				select.executeUpdate("INSERT INTO Zutaten_Rezept(RezeptIDFS,ZutatIDFS) VALUES('" + receiptid + "','" + ingredientid + "')");
+				select.executeUpdate("INSERT INTO Zutaten_Rezept(RezeptIDFS,ZutatIDFS) VALUES('" + getReceiptId(receipt) + "','" + getIngredientsId(string) + "')");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
 		try {
 			select.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-	
 	
 	public void addReceipt(String title, String description, String author, int numberOfVotes, String manual) throws SQLException{
 		try {
@@ -88,14 +108,9 @@ public class Database {
 	
 	public void removeReceipt(String receipt){
 		java.sql.Statement s;
-		ResultSet receiptidQuery = null;
-		int receiptid = 0;
 		try {
 			s = connect.createStatement();
-			receiptidQuery = s.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
-			receiptidQuery.next();
-			receiptid = receiptidQuery.getInt("ID");
-			removeIngredientsOfReceipt(receiptid);
+			removeIngredientsOfReceipt(getReceiptId(receipt));
 			s.executeUpdate("DELETE FROM Rezept where Name='" + receipt + "'");
 			s.close();
 		} catch (SQLException e) {
@@ -121,9 +136,9 @@ public class Database {
 		java.sql.Statement s=null;
 		try {
 			s = connect.createStatement();
-		} catch (SQLException e1) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		for(String string:zutaten)
 		{
@@ -141,6 +156,15 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	private java.sql.Statement connect(java.sql.Statement s){
+		try {
+			s = connect.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return s;
 	}
 	
 	public static void main(String[] args) {
