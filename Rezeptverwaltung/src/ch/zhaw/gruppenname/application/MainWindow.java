@@ -22,9 +22,11 @@ public class MainWindow {
 	
 	private JFrame frame;
 	private JMenuBar menubar;
-	private Container contentPane;
-	//private JTextField name,bewertung,zutaten;
-	//private JTextArea beschreibung,vorgehen;
+	private Container pane;
+	private JComboBox dropdown;
+	private JTextField namefield,ingredientsfield,votefield;
+	private JTextArea descriptionfield,procedurefield;
+	private JButton load;
 	
 	public static void main(String[] args) {
 		new MainWindow();
@@ -35,6 +37,11 @@ public class MainWindow {
 		frame = new JFrame("Rezepteverwaltung");
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
+		
+		load = new JButton("Laden");
+		dropdown = new JComboBox();
+		dropdown.addItem("Test");
+		
 		
 		//Datei-Menü erstellen
 		JMenu dateimenu = new JMenu("Datei");
@@ -77,8 +84,8 @@ public class MainWindow {
 		
 		dateimenu.add(exit);
 		editmenu.add(addingRecipe);
-		editmenu.add(addingIngredients);
 		editmenu.add(deleteRecipe);
+		editmenu.add(addingIngredients);
 		editmenu.add(deleteIngredients);
 		
 		menubar.add(dateimenu);
@@ -86,45 +93,115 @@ public class MainWindow {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		contentPane = frame.getContentPane();
-		contentPane.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		pane = frame.getContentPane();
+		pane.setLayout(new GridBagLayout());
+		GridBagConstraints gdc = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.NORTH;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.insets = new Insets(5,7,20,0);
-		contentPane.add(title(),c);
+		gdc.fill = GridBagConstraints.HORIZONTAL;
+		gdc.anchor = GridBagConstraints.NORTH;
+		gdc.gridx = 0;
+		gdc.gridy = 0;
+		gdc.insets = new Insets(5,7,20,0);
+		pane.add(title(),gdc);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.insets = new Insets(0,10,5,0);
-		contentPane.add(dropdown(),c);
+		gdc.gridx = 0;
+		gdc.gridy = 1;
+		gdc.insets = new Insets(0,10,5,0);
+		pane.add(dropdown,gdc);
 		
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = 1;
-		c.insets = new Insets(0,0,5,10);  
-		contentPane.add(load(),c);
+		gdc.gridx = 1;
+		gdc.gridy = 1;
+		gdc.insets = new Insets(0,0,5,10);
+		pane.add(load,gdc);
+		
+		gdc.gridx = 0;
+		gdc.gridy = 2;
+		gdc.insets = new Insets(0,10,5,0);
+		pane.add(new JLabel("Name"),gdc);
+		
+		gdc.gridx = 1;
+		gdc.gridy = 2;
+		gdc.insets = new Insets(0,0,5,10);
+		pane.add(namefield(),gdc);
+		
+		gdc.gridx = 0;
+		gdc.gridy = 3;
+		gdc.insets = new Insets(0,10,5,0);
+		pane.add(new JLabel("Zutaten"),gdc);
+		
+		gdc.gridx = 1;
+		gdc.gridy = 3;
+		gdc.insets = new Insets(0,0,5,10);
+		pane.add(ingredientsfield(),gdc);
+		
+		gdc.gridx = 0;
+		gdc.gridy = 4;
+		gdc.insets = new Insets(0,10,5,0);
+		pane.add(new JLabel("Bewertung"),gdc);
+		
+		gdc.gridx = 1;
+		gdc.gridy = 4;
+		gdc.insets = new Insets(0,0,5,10);
+		pane.add(votefield(),gdc);
+		
+		gdc.gridx = 0;
+		gdc.gridy = 5;
+		gdc.insets = new Insets(0,10,5,0);
+		pane.add(new JLabel("Beschreibung"),gdc);
+		
+		gdc.gridx = 1;
+		gdc.gridy = 5;
+		gdc.insets = new Insets(0,0,5,10);
+		pane.add(descriptionfield(),gdc);
+		
+		gdc.gridx = 0;
+		gdc.gridy = 6;
+		gdc.insets = new Insets(0,10,5,0);
+		pane.add(new JLabel("Vorgehen"),gdc);
+		
+		gdc.gridx = 1;
+		gdc.gridy = 6;
+		gdc.insets = new Insets(0,0,5,10);
+		pane.add(procedurefield(),gdc);
+		
 		
 		frame.pack();
 		frame.setVisible(true);
 	}
 	
-	public JButton load()
+	public JTextArea procedurefield()
 	{
-		JButton load = new JButton("Laden");
-		return load;
+		procedurefield = new JTextArea(10,30);
+		procedurefield.setEditable(false);
+		return procedurefield;
 	}
 	
-	public JComboBox dropdown()
+	public JTextArea descriptionfield()
 	{
-		JComboBox dropdown = new JComboBox();
-		dropdown.addItem("Test");
-		return dropdown();
+		descriptionfield = new JTextArea(10,30);
+		descriptionfield.setEditable(false);
+		return descriptionfield;
+	}
+	
+	public JTextField votefield()
+	{
+		votefield = new JTextField(20);
+		votefield.setEditable(false);
+		return votefield;
+	}
+	
+	public JTextField ingredientsfield()
+	{
+		ingredientsfield = new JTextField(20);
+		ingredientsfield.setEditable(false);
+		return ingredientsfield;
+	}
+	
+	public JTextField namefield()
+	{
+		namefield = new JTextField(20);
+		namefield.setEditable(false);
+		return namefield;
 	}
 	
 	public JLabel title()
