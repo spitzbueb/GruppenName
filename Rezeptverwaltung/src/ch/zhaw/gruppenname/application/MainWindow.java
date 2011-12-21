@@ -7,7 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,15 +18,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import ch.zhaw.gruppenname.database.Database;
+
 public class MainWindow {
 	
 	private JFrame frame;
 	private JMenuBar menubar;
 	private Container pane;
 	private JComboBox dropdown;
-	private JTextField namefield,ingredientsfield,votefield;
+	private JTextField ingredientsfield,votefield;
 	private JTextArea descriptionfield,procedurefield;
 	private JButton load;
+	private ArrayList<String> allTitles;
 	
 	public static void main(String[] args) {
 		new MainWindow();
@@ -38,9 +41,25 @@ public class MainWindow {
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
 		
+		Database db = new Database();
+		
 		load = new JButton("Laden");
+		load.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				//getIngredientsField(db.)
+			}
+		});
 		dropdown = new JComboBox();
-		dropdown.addItem("Test");
+		
+		for (String string:db.getAllTitles())
+		{
+			dropdown.addItem(string);
+		}
+		
+		
 		
 		
 		//Datei-Menü erstellen
@@ -117,56 +136,61 @@ public class MainWindow {
 		gdc.gridx = 0;
 		gdc.gridy = 2;
 		gdc.insets = new Insets(0,10,5,0);
-		pane.add(new JLabel("Name"),gdc);
+		pane.add(new JLabel("Zutaten"),gdc);
 		
 		gdc.gridx = 1;
 		gdc.gridy = 2;
 		gdc.insets = new Insets(0,0,5,10);
-		pane.add(namefield(),gdc);
-		
-		gdc.gridx = 0;
-		gdc.gridy = 3;
-		gdc.insets = new Insets(0,10,5,0);
-		pane.add(new JLabel("Zutaten"),gdc);
-		
-		gdc.gridx = 1;
-		gdc.gridy = 3;
-		gdc.insets = new Insets(0,0,5,10);
 		pane.add(ingredientsfield(),gdc);
 		
 		gdc.gridx = 0;
-		gdc.gridy = 4;
+		gdc.gridy = 3;
 		gdc.insets = new Insets(0,10,5,0);
 		pane.add(new JLabel("Bewertung"),gdc);
 		
 		gdc.gridx = 1;
-		gdc.gridy = 4;
+		gdc.gridy = 3;
 		gdc.insets = new Insets(0,0,5,10);
 		pane.add(votefield(),gdc);
 		
 		gdc.gridx = 0;
-		gdc.gridy = 5;
+		gdc.gridy = 4;
 		gdc.insets = new Insets(0,10,5,0);
 		pane.add(new JLabel("Beschreibung"),gdc);
 		
 		gdc.gridx = 1;
-		gdc.gridy = 5;
+		gdc.gridy = 4;
 		gdc.insets = new Insets(0,0,5,10);
 		pane.add(descriptionfield(),gdc);
 		
 		gdc.gridx = 0;
-		gdc.gridy = 6;
+		gdc.gridy = 5;
 		gdc.insets = new Insets(0,10,5,0);
 		pane.add(new JLabel("Vorgehen"),gdc);
 		
 		gdc.gridx = 1;
-		gdc.gridy = 6;
+		gdc.gridy = 5;
 		gdc.insets = new Insets(0,0,5,10);
 		pane.add(procedurefield(),gdc);
 		
 		
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void getIngredientsField(int i)
+	{
+		Database temp = new Database();
+		ArrayList<String> Stringlist = new ArrayList<String>();
+		String liste = "";
+		Stringlist = temp.getIngredients(i);
+		
+		for (String string : Stringlist)
+		{
+			liste = liste + "," + string;
+		}
+		
+		ingredientsfield.setText(liste);
 	}
 	
 	public JTextArea procedurefield()
@@ -195,13 +219,6 @@ public class MainWindow {
 		ingredientsfield = new JTextField(20);
 		ingredientsfield.setEditable(false);
 		return ingredientsfield;
-	}
-	
-	public JTextField namefield()
-	{
-		namefield = new JTextField(20);
-		namefield.setEditable(false);
-		return namefield;
 	}
 	
 	public JLabel title()

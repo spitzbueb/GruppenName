@@ -30,6 +30,26 @@ public class Database {
 		 }
 	}
 	
+	public ArrayList<String> getIngredients(int id)
+	{
+		connect();
+		ArrayList<String> ingredients = new ArrayList<String>();
+		
+		try{
+			ResultSet query = statement.executeQuery("Select Name from Zutat,Zutaten_Rezept WHERE Zutat.ID = Zutaten_Rezept.ZutatIDFS AND Zutaten_Rezept.RezeptIDFS = " + id);
+			while(!query.isLast())
+			{
+				query.next();
+				ingredients.add(query.getString("Name"));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		close();
+		return ingredients;
+		
+	}
+	
 	public ArrayList<String> getAllTitles(){
 		connect();
 		ResultSet allTitlesQuery;

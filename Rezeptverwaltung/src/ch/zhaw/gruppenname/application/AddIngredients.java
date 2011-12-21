@@ -51,7 +51,7 @@ public class AddIngredients {
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.exit(0);
+				frame.dispose();
 			}
 		});
 		
@@ -78,7 +78,7 @@ public class AddIngredients {
 		
 		menubar.add(dateiMenu);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		contentPane = frame.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
