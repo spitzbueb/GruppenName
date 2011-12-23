@@ -1,3 +1,10 @@
+/**
+ * Klasse um ein Rezept in Datenbank aufzunehmen
+ * 
+ * @author Philipp Schalcher
+ * @version 1
+ */
+
 package ch.zhaw.gruppenname.application;
 
 import java.awt.BorderLayout;
@@ -24,39 +31,50 @@ public class AddRecipe{
 	private Container contentPane;
 	private JTextField name,bewertung,zutaten;
 	private JTextArea beschreibung,vorgehen;
-	
+//----------------------------------------------------------------------------------------------
+	/**
+	 * Main-Klasse für die Ausführung. 
+	 */
 	public static void main(String[] args) {
 		new AddRecipe();
 	}
-	
+//----------------------------------------------------------------------------------------------	
+	/**
+	 * Konstruktor: Zeichnet das Eingabefenster
+	 */
 	public AddRecipe()
 	{
 		frame = new JFrame("Rezept erfassen");
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
 		
-		//Datei-Menü
+		//Datei-Menü erstellen
 		JMenu dateiMenu = new JMenu("Datei");
 		
 		JMenuItem exit = new JMenuItem("Beenden");
 		JMenuItem safe = new JMenuItem("Speichern");
 		
+		//Definiere die Aktion wenn das Fenster über Datei>Beenden geschlossen wird
 		exit.addActionListener(new ActionListener()
 		{
 			
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				//Fenster verschwinden lassen, im Gegensatz zu System.exit(0) wird nicht das komplette Programm beendet
 				frame.dispose();
 			}
 		});
 		
+		//Aktion für Speicherung der eingetragenen Daten
 		safe.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				
+				//temporäres Datenbank-Objekt erstellen, dann die eingetragenen Felder auslesen,
+				// in Datenbank eintragen
 				Database add = new Database();
 				try {
 					add.addReceipt(name.getText(), beschreibung.getText(), "author", Integer.parseInt(bewertung.getText()), vorgehen.getText());
@@ -68,6 +86,7 @@ public class AddRecipe{
 					e1.printStackTrace();
 				}
 				
+				//Zwischentabelle abfüllen mit RezeptID und ZutatenID
 				add.matchReceipt_Ingredients(name.getText(),zutaten.getText());
 
 				frame.dispose();
@@ -81,6 +100,7 @@ public class AddRecipe{
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		// Zeichne das komplette Fenster
 		contentPane = frame.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -158,41 +178,67 @@ public class AddRecipe{
 		frame.setVisible(true);
 	}
 	
+//------------------------------------------------------------------------------------------------
+	/**
+	 * Erstellt das Textfeld für die Bewertung
+	 * @return JTextField
+	 */
 	private JTextField bewertungTextField()
 	{
 		bewertung = new JTextField(30);
 		bewertung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return bewertung;
 	}
-	
+//------------------------------------------------------------------------------------------------
+	/**
+	 * Erstellt das Textfeld für die Eingabe des Vorgehens
+	 * @return JTextArea
+	 */
 	private JTextArea vorgehenTextArea()
 	{
 		vorgehen = new JTextArea(10,30);
 		vorgehen.setBorder(BorderFactory.createLineBorder(Color.black));
 		return vorgehen;
 	}
-	
+//------------------------------------------------------------------------------------------------
+	/**
+	 * Erstellt das Textfeld für die Eingabe der Beschreibung
+	 * @return JTextArea
+	 */
 	private JTextArea beschreibungTextArea()
 	{
 		beschreibung = new JTextArea(10,30);
 		beschreibung.setBorder(BorderFactory.createLineBorder(Color.black));
 		return beschreibung;
 	}
-	
+//------------------------------------------------------------------------------------------------
+	/**
+	 * Erstellt das Textfeld für die Zutaten.
+	 * Zutaten werden als komma-getrennte Liste eingegeben
+	 * @return JTextField
+	 */
 	private JTextField zutatenTextField()
 	{
 		zutaten = new JTextField(30);
 		zutaten.setBorder(BorderFactory.createLineBorder(Color.black));
 		return zutaten;
 	}
-	
+//------------------------------------------------------------------------------------------------
+	/**
+	 * Erstellt das Textfeld um den Namen des Rezeptes einzugeben
+	 * @return JTextField
+	 */
 	private JTextField nameTextField()
 	{
 		name = new JTextField(30);
 		name.setBorder(BorderFactory.createLineBorder(Color.black));
 		return name;
 	}
-	
+//------------------------------------------------------------------------------------------------	
+	/**
+	 * Erstellt den Titel des GUI.
+	 * @return JLabel
+	 */
 	private JLabel title()
 	{
 		
@@ -200,4 +246,5 @@ public class AddRecipe{
 		title.setFont(new Font("Arial",1,20));
 		return title;
 	}
+//-------------------------------------------------------------------------------------------------
 }

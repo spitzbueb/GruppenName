@@ -34,31 +34,40 @@ public class MainWindow {
 	public static void main(String[] args) {
 		new MainWindow();
 	}
-	
+//---------------------------------------------------------------------------------------
+	/**
+	 * Konstruktor
+	 */
 	public MainWindow()
 	{
 		frame = new JFrame("Rezepteverwaltung");
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
 		
-		Database db = new Database();
+		Database db = new Database();				//Datenbank-Objekt für Operationen
 		
+		//Dropdownbox und Button werden generiert
 		load = new JButton("Laden");
-		load.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				//getIngredientsField(db.)
-			}
-		});
 		dropdown = new JComboBox();
 		
+		//Dropdownbox abfüllen mit Werten aus Datenbank
 		for (String string:db.getAllTitles())
 		{
 			dropdown.addItem(string);
 		}
 		
+		//Funktion des Buttons definieren
+		load.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				//Schreibe die Werte in der Datenbank in die richtigen Felder
+				Database temp = new Database();
+				String tempstring = dropdown.getSelectedItem().toString();
+				System.out.println(temp.getReceiptId("Pommes"));
+			}
+		});
 		
 		
 		
@@ -112,6 +121,7 @@ public class MainWindow {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		//Zeichne das Fenster
 		pane = frame.getContentPane();
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints gdc = new GridBagConstraints();
@@ -177,8 +187,13 @@ public class MainWindow {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
-	public void getIngredientsField(int i)
+//----------------------------------------------------------------------------------------
+	/**
+	 * Liesst aus der Datenbank die Zutatenliste aus und schreibt sie als komma-getrennte Liste
+	 * in das Zutaten-Textfeld
+	 * @param i
+	 */
+	public void setIngredientsField(int i)
 	{
 		Database temp = new Database();
 		ArrayList<String> Stringlist = new ArrayList<String>();
@@ -192,39 +207,60 @@ public class MainWindow {
 		
 		ingredientsfield.setText(liste);
 	}
-	
+//----------------------------------------------------------------------------------------
+	/**
+	 * Methode zeichnet gesperrte Textfeld für Anleitung
+	 * @return JTextArea
+	 */
 	public JTextArea procedurefield()
 	{
 		procedurefield = new JTextArea(10,30);
 		procedurefield.setEditable(false);
 		return procedurefield;
 	}
-	
+//----------------------------------------------------------------------------------------
+	/**
+	 * Methode zeichnet gesperrtes Textfeld für Beschreibung
+	 * @return JTextArea
+	 */
 	public JTextArea descriptionfield()
 	{
 		descriptionfield = new JTextArea(10,30);
 		descriptionfield.setEditable(false);
 		return descriptionfield;
 	}
-	
+//----------------------------------------------------------------------------------------
+	/**
+	 * Methode zeichnet gesperrtes Textfeld für Bewertung
+	 * @return JTextField
+	 */
 	public JTextField votefield()
 	{
 		votefield = new JTextField(20);
 		votefield.setEditable(false);
 		return votefield;
 	}
-	
+//----------------------------------------------------------------------------------------
+	/**
+	 * Methode zeichnet gesperrtes Textfeld für Zutaten
+	 * @return JTextField
+	 */
 	public JTextField ingredientsfield()
 	{
 		ingredientsfield = new JTextField(20);
 		ingredientsfield.setEditable(false);
 		return ingredientsfield;
 	}
-	
+//-----------------------------------------------------------------------------------------
+	/**
+	 * Methode zeichnet den Titel
+	 * @return JLabel
+	 */
 	public JLabel title()
 	{
 		JLabel title = new JLabel("Rezeptverwaltung");
 		title.setFont(new Font("Arial",1,20));
 		return title;
 	}
+//-----------------------------------------------------------------------------------------
 }

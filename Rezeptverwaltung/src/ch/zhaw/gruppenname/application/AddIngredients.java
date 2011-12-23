@@ -1,3 +1,9 @@
+/**
+ * Klasse für Hinzufügen von Zutaten in Datenbank
+ * 
+ * @author Philipp Schalcher
+ * @version 1
+ */
 package ch.zhaw.gruppenname.application;
 
 import java.awt.Color;
@@ -28,38 +34,48 @@ public class AddIngredients {
 	private Container contentPane;
 	private JTextField name,bewertung,zutaten;
 	private JTextArea beschreibung,vorgehen;
-	
+//---------------------------------------------------------------------------------
+	/**
+	 * Main-Klasse um Maske zu starten
+	 */
 	public static void main(String[] args) {
 		new AddIngredients();
 	}
-	
+//---------------------------------------------------------------------------------
+	/**
+	 * Konstruktor: Zeichnet das Eingabefenster
+	 */
 	public AddIngredients()
 	{
 		frame = new JFrame("Zutat erfassen");
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
 		
-		//Datei-Menü
+		//Datei-Menü erstellen
 		JMenu dateiMenu = new JMenu("Datei");
 		
 		JMenuItem exit = new JMenuItem("Beenden");
 		JMenuItem safe = new JMenuItem("Speichern");
 		
+		//Aktion festlegen, welche beim Schliessen durch Datei>Beenden ausgeführt wird
 		exit.addActionListener(new ActionListener()
 		{
 			
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				//Fenster zerstören und nicht komplettes Programm schliessen
 				frame.dispose();
 			}
 		});
 		
+		//Aktion festlegen, beim Drücken von Datei>Speichern
 		safe.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				//Temporäres DB-Objekt generieren um Einträge zu speichern.
 				Database add = new Database();
 				try {
 					add.addIngredients(name.getText());
@@ -80,6 +96,7 @@ public class AddIngredients {
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		//Zeichne das Fenster
 		contentPane = frame.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -108,14 +125,22 @@ public class AddIngredients {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+//-----------------------------------------------------------------------------------
+	/**
+	 * Methode um das Namesfeld zu zeichnen
+	 * @return JTextField
+	 */
 	private JTextField nameTextField()
 	{
 		name = new JTextField(30);
 		name.setBorder(BorderFactory.createLineBorder(Color.black));
 		return name;
 	}
-	
+//----------------------------------------------------------------------------------
+	/**
+	 * Methode um den Titel zu zeichnen
+	 * @return JLabel
+	 */
 	private JLabel title()
 	{
 		
@@ -123,4 +148,5 @@ public class AddIngredients {
 		title.setFont(new Font("Arial",1,20));
 		return title;
 	}
+//----------------------------------------------------------------------------------
 }

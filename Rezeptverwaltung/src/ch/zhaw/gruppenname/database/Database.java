@@ -1,3 +1,10 @@
+/**
+ * Klasse welche die komplette Datenbankaktionen übernimmt
+ * WICHTIG: Jede aufgebaute verbindung muss wieder geschlossen werden
+ * 
+ * @author GruppenName
+ * @Version 1
+ */
 package ch.zhaw.gruppenname.database;
 
 import java.sql.DriverManager;
@@ -10,7 +17,10 @@ public class Database {
 	private String username,password,url;
 	private java.sql.Connection connect = null;
 	private java.sql.Statement statement;
-	
+//----------------------------------------------------------------------------------------------
+	/**
+	 * Konstruktor
+	 */
 	public Database(){
 		 username = "web313";
 		 password = "rt5adq";
@@ -29,7 +39,13 @@ public class Database {
 				e.printStackTrace();
 		 }
 	}
-	
+//----------------------------------------------------------------------------------
+	/**
+	 * Methode um eine Liste der Zutaten zu einem Rezept zu bekommen
+	 * 
+	 * @param id
+	 * @return ArrayList<String>
+	 */
 	public ArrayList<String> getIngredients(int id)
 	{
 		connect();
@@ -49,7 +65,12 @@ public class Database {
 		return ingredients;
 		
 	}
-	
+//--------------------------------------------------------------------------------------------
+	/**
+	 * Methode um all Rezeptnamen aus der Datenbank zu bekommen
+	 * 
+	 * @return ArrayList<String>
+	 */
 	public ArrayList<String> getAllTitles(){
 		connect();
 		ResultSet allTitlesQuery;
@@ -67,15 +88,19 @@ public class Database {
 		close();
 		return allTitles;
 	}
-	
-	private int getReceiptId(String receipt){
+//-------------------------------------------------------------------------------------------
+	/**
+	 * Methode um die ID eines Rezeptes herauszufinden
+	 * @param receipt
+	 * @return int
+	 */
+	public int getReceiptId(String receipt){
 		ResultSet receiptIdQuery;
 		int receiptid = 0;
 		java.sql.Statement select;
 		try {
 			select = connect.createStatement();
 			receiptIdQuery = statement.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
-			receiptIdQuery.next();
 			receiptid = receiptIdQuery.getInt("ID");
 			select.close();
 		} catch (SQLException e) {
@@ -84,8 +109,13 @@ public class Database {
 		}
 		return receiptid;
 	}
-	
-	private int getIngredientsId(String ingredient){
+//--------------------------------------------------------------------------------------------------------------------
+	/**
+	 * Methode um die ID einer Zutat zu erhalten
+	 * @param ingredient
+	 * @return int
+	 */
+	public int getIngredientsId(String ingredient){
 		int ingredientId = 0;
 		ResultSet ingredientidQuery;
 		java.sql.Statement select;
@@ -101,7 +131,13 @@ public class Database {
 		}
 		return ingredientId;
 	}
-	
+//---------------------------------------------------------------------------------------------
+	/**
+	 * Methode um in der Tabelle Zutaten_Rezept die IDFS zusammenzuführen.
+	 * 
+	 * @param receipt
+	 * @param ingredients
+	 */
 	public void matchReceipt_Ingredients(String receipt, String ingredients){
 		String[] oneIngredient;
 		connect();				
@@ -116,7 +152,18 @@ public class Database {
 		}
 		close();
 	}
-	
+//-----------------------------------------------------------------------------------------------
+	/**
+	 * Methode um ein Rezept in die Datenbank zu schreiben.
+	 * Wird von AddRecipe.java aufgerufen
+	 * 
+	 * @param title
+	 * @param description
+	 * @param author
+	 * @param numberOfVotes
+	 * @param manual
+	 * @throws SQLException
+	 */
 	public void addReceipt(String title, String description, String author, int numberOfVotes, String manual) throws SQLException{
 		connect();
 		try {
@@ -128,7 +175,12 @@ public class Database {
 		}
 		close();
 	}
-	
+//-------------------------------------------------------------------------------------------------
+	/**
+	 * Methode um ein Rezept aus der Datenbank zu löschen
+	 * 
+	 * @param receipt
+	 */
 	public void removeReceipt(String receipt){
 		connect();
 		try {
@@ -140,7 +192,11 @@ public class Database {
 		}
 		close();
 	}
-	
+//--------------------------------------------------------------------------------------
+	/**
+	 * Methode um Zutaten in die Datenbank einzufügen.
+	 * @param ingredients
+	 */
 	public void addIngredients(String ingredients){
 		String[] zutaten = ingredients.split(",");
 		connect();
@@ -154,6 +210,10 @@ public class Database {
 		}
 		close();
 	}
+//---------------------------------------------------------------------------------------------
+	/**
+	 * Methode welche die Verbindung zur Datenbank herstellt
+	 */
 	private void connect(){
 		try {
 			statement = connect.createStatement();
@@ -162,7 +222,10 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+//---------------------------------------------------------------------------------------------
+	/**
+	 * Methode um die Verbindung zu trennen
+	 */
 	private void close(){
 		try {
 			statement.close();
@@ -171,9 +234,10 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+//---------------------------------------------------------------------------------------------	
+	//Bereich überflüssig?????
 	public static void main(String[] args) {
 		new Database();
 	}
-	
+//--------------------------------------------------------------------------------------------	
 }
