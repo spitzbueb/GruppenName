@@ -2,7 +2,7 @@
  * Klasse für Hinzufügen von Zutaten in Datenbank
  * 
  * @author Philipp Schalcher
- * @version 1
+ * @version 23.12.2011
  */
 package ch.zhaw.gruppenname.application;
 

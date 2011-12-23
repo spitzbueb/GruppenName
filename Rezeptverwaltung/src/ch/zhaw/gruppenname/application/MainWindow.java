@@ -1,3 +1,9 @@
+/**
+ * Rezeptverwaltung der Gruppe "GruppenName" (Buchstabe H)
+ * @author GruppenName
+ * @version 23.12.2011
+ * 
+ */
 package ch.zhaw.gruppenname.application;
 
 import java.awt.Container;

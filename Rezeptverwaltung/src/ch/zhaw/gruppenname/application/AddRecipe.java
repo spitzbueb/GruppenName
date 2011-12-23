@@ -2,7 +2,7 @@
  * Klasse um ein Rezept in Datenbank aufzunehmen
  * 
  * @author Philipp Schalcher
- * @version 1
+ * @version 23.12.2011
  */
 
 package ch.zhaw.gruppenname.application;

@@ -2,8 +2,8 @@
  * Klasse welche die komplette Datenbankaktionen übernimmt
  * WICHTIG: Jede aufgebaute verbindung muss wieder geschlossen werden
  * 
- * @author GruppenName
- * @Version 1
+ * @author pianogen
+ * @version 23.12.2011
  */
 package ch.zhaw.gruppenname.database;
 
