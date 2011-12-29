@@ -1,5 +1,5 @@
 /**
- * Klasse welche die komplette Datenbankaktionen übernimmt
+ * Klasse welche die kompletten Datenbankaktionen übernimmt
  * WICHTIG: Jede aufgebaute verbindung muss wieder geschlossen werden
  * 
  * @author pianogen
