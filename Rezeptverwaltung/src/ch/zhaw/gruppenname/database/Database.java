@@ -7,10 +7,9 @@
  */
 package ch.zhaw.gruppenname.database;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Database {
 	
@@ -38,6 +37,32 @@ public class Database {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 		 }
+	}
+//----------------------------------------------------------------------------------
+	/**
+	 * Methode um komplette Infos über Rezept zu bekommen.
+	 * 
+	 * @param rezeptname
+	 * @return ResultSet
+	 */
+	
+	public HashMap getRecipeInfos(String rezeptname)
+	{
+		ResultSet query;
+		HashMap<String,String> hm = new HashMap<String,String>();
+		connect();
+		try{
+			query = statement.executeQuery("SELECT Beschreibung,Author,Bewertung,Vorgehen FROM Rezept WHERE Name = '" + rezeptname + "'");
+			query.beforeFirst();
+			query.next();
+			hm.put("Beschreibung", query.getString("Beschreibung"));
+			hm.put("Vorgehen", query.getString("Vorgehen"));
+			hm.put("Bewertung", query.getString("Bewertung"));
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		close();
+		return hm;
 	}
 //----------------------------------------------------------------------------------
 	/**
@@ -98,15 +123,18 @@ public class Database {
 		ResultSet receiptIdQuery;
 		int receiptid = 0;
 		java.sql.Statement select;
+		connect();
 		try {
 			select = connect.createStatement();
 			receiptIdQuery = statement.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
+			receiptIdQuery.next();
 			receiptid = receiptIdQuery.getInt("ID");
 			select.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		close();
 		return receiptid;
 	}
 //--------------------------------------------------------------------------------------------------------------------
@@ -119,6 +147,7 @@ public class Database {
 		int ingredientId = 0;
 		ResultSet ingredientidQuery;
 		java.sql.Statement select;
+		connect();
 		try {
 			select = connect.createStatement();
 			ingredientidQuery = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + ingredient + "'");
@@ -129,6 +158,7 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		close();
 		return ingredientId;
 	}
 //---------------------------------------------------------------------------------------------

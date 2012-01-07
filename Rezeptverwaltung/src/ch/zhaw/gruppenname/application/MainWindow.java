@@ -1,7 +1,7 @@
 /**
  * Rezeptverwaltung der Gruppe "GruppenName" (Buchstabe H)
  * @author GruppenName
- * @version 23.12.2011
+ * l
  * 
  */
 package ch.zhaw.gruppenname.application;
@@ -13,7 +13,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -68,10 +72,29 @@ public class MainWindow {
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				//Schreibe die Werte in der Datenbank in die richtigen Felder
+				//Schreibe die Werte von der Datenbank in die richtigen Felder
 				Database temp = new Database();
-				String tempstring = dropdown.getSelectedItem().toString();
-				System.out.println(temp.getReceiptId("Pommes"));
+				
+				HashMap<String,String> hm = temp.getRecipeInfos(dropdown.getSelectedItem().toString());
+				
+				procedurefield.setText(hm.get("Vorgehen"));
+				descriptionfield.setText(hm.get("Beschreibung"));
+				votefield.setText(hm.get("Bewertung"));
+				
+				ArrayList<String> ingredients = temp.getIngredients(temp.getReceiptId(dropdown.getSelectedItem().toString()));
+				String ingredient = null;
+				for (String string:ingredients)
+				{
+					if (ingredient==null)
+					{
+						ingredient = string;
+					}
+					else
+					{
+						ingredient = ingredient + "," + string;
+					}
+				}
+				ingredientsfield.setText(ingredient);
 			}
 		});
 		
