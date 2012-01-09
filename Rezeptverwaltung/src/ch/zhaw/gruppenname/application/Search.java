@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -17,12 +19,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
 
+import ch.zhaw.gruppenname.interfaces.ISearchStrategy;
+
 public class Search {
 	private JFrame frame;
 	private JMenuBar menubar;
 	private Container contentPane;
 	private JTextField field;
 	private JButton searchButton;
+	private JRadioButtonMenuItem recipe,ingredients;
 	
 	public static void main(String[] args) {
 		new Search();
@@ -36,8 +41,8 @@ public class Search {
 		
 		JMenu SearchMenu = new JMenu("Suchen");
 		
-		JRadioButtonMenuItem recipe = new JRadioButtonMenuItem("Nach Titel");
-		JRadioButtonMenuItem ingredients = new JRadioButtonMenuItem("Nach Zutaten");
+		recipe = new JRadioButtonMenuItem("Nach Titel");
+		ingredients = new JRadioButtonMenuItem("Nach Zutaten");
 		recipe.setSelected(true);
 		ButtonGroup strategy = new ButtonGroup();
 		
@@ -87,9 +92,33 @@ public class Search {
 		
 	}
 	
+	private void search()
+	{
+		if (recipe.isSelected() == true)
+		{
+			System.out.println("Suche nach Name");
+		}
+		else if (ingredients.isSelected() == true)
+		{
+			System.out.println("Suche nach Zutaten");
+		}
+	}
+	
 	private JButton searchButton()
 	{
 		searchButton = new JButton("Suche");
+		
+		searchButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				// TODO Auto-generated method stub
+				search();
+			}
+		});
+		
 		return searchButton;
 	}
 	
