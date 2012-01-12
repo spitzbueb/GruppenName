@@ -1,15 +1,21 @@
-#Thu Nov 24 20:07:57 CET 2011
-useQuickDiffPrefPage=true
-proposalOrderMigrated=true
-tabWidthPropagated=true
-content_assist_proposals_background=255,255,255
-org.eclipse.jdt.ui.javadoclocations.migrated=true
-useAnnotationsPrefPage=true
-org.eclipse.jface.textfont=1|Monospace|10.0|0|GTK|1|;
-org.eclipse.jdt.internal.ui.navigator.layout=2
-org.eclipse.jdt.ui.editor.tab.width=
-org.eclipse.jdt.ui.formatterprofiles.version=12
-spelling_locale_initialized=true
-eclipse.preferences.version=1
+#Mon Jan 09 11:25:15 CET 2012
 content_assist_proposals_foreground=60,60,60
+spelling_locale_initialized=true
+org.eclipse.jdt.ui.text.templates_migrated=true
+useAnnotationsPrefPage=true
+eclipse.preferences.version=1
+org.eclipse.jface.textfont=1|Monospace|10.0|0|GTK|1|;
+tabWidthPropagated=true
+org.eclipse.jdt.ui.editor.tab.width=
 fontPropagated=true
+org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+org.eclipse.jdt.ui.javadoclocations.migrated=true
+proposalOrderMigrated=true
+content_assist_proposals_background=255,255,255
+org.eclipse.jdt.ui.formatterprofiles.version=12
+org.eclipse.jdt.internal.ui.navigator.layout=2
+content_assist_number_of_computers=13
+useQuickDiffPrefPage=true
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="java.awt.Paint"><rhs name\="java.awt.Color"/></lhs><lhs name\="java.awt.Transparency"><rhs name\="java.awt.Color"/></lhs><lhs name\="java.awt.Color"><rhs name\="java.awt.Color"/></lhs></history>
+org.eclipse.jdt.ui.text.code_templates_migrated=true
