@@ -113,6 +113,29 @@ public class Database {
 		close();
 		return allTitles;
 	}
+//-----------------------------------------------------------------------------------------------
+	/**
+	 * Methode um all Zutatsnnamen aus der Datenbank zu bekommen
+	 * 
+	 * @return ArrayList<String>
+	 */
+	public ArrayList<String> getAllIngredients(){
+		connect();
+		ResultSet allIngredientsQuery;
+		ArrayList<String> allIngredients = new ArrayList<String>();	
+		try {
+			allIngredientsQuery = statement.executeQuery("Select Name from Zutat");
+			while (!allIngredientsQuery.isLast()){
+				allIngredientsQuery.next();
+				allIngredients.add(allIngredientsQuery.getString("Name"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		close();
+		return allIngredients;
+	}
 //-------------------------------------------------------------------------------------------
 	/**
 	 * Methode um die ID eines Rezeptes herauszufinden
@@ -123,23 +146,23 @@ public class Database {
 		ResultSet receiptIdQuery;
 		int receiptid = 0;
 		java.sql.Statement select;
-		connect();
 		try {
 			select = connect.createStatement();
-			receiptIdQuery = statement.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
-			receiptIdQuery.next();
-			receiptid = receiptIdQuery.getInt("ID");
+			receiptIdQuery = select.executeQuery("SELECT ID from Rezept WHERE Name = '" + receipt + "'");
+			if (receiptIdQuery.next()){
+				receiptid = receiptIdQuery.getInt("ID");
+			}
 			select.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		close();
 		return receiptid;
 	}
 //--------------------------------------------------------------------------------------------------------------------
 	/**
 	 * Methode um die ID einer Zutat zu erhalten
+	 * Falls Zutat nicht existiert, wird Zutat automatisch erstellt
 	 * @param ingredient
 	 * @return int
 	 */
@@ -147,18 +170,20 @@ public class Database {
 		int ingredientId = 0;
 		ResultSet ingredientidQuery;
 		java.sql.Statement select;
-		connect();
 		try {
 			select = connect.createStatement();
 			ingredientidQuery = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + ingredient + "'");
-			ingredientidQuery.next();
+			if (!ingredientidQuery.next()){
+				select.executeUpdate("INSERT INTO Zutat(Name) VALUES('" + ingredient + "')");
+				ingredientidQuery = select.executeQuery("SELECT ID from Zutat WHERE Name = '" + ingredient + "'");
+				ingredientidQuery.next();
+			}
 			ingredientId = ingredientidQuery.getInt("ID");
 			select.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		close();
 		return ingredientId;
 	}
 //---------------------------------------------------------------------------------------------
@@ -182,6 +207,7 @@ public class Database {
 		}
 		close();
 	}
+
 //-----------------------------------------------------------------------------------------------
 	/**
 	 * Methode um ein Rezept in die Datenbank zu schreiben.
@@ -210,17 +236,22 @@ public class Database {
 	 * Methode um ein Rezept aus der Datenbank zu lÃ¶schen
 	 * 
 	 * @param receipt
+	 * @return boolean
 	 */
-	public void removeReceipt(String receipt){
+	public boolean removeReceipt(String receipt){
 		connect();
 		try {
 			statement.executeUpdate("DELETE FROM Zutaten_Rezept where RezeptIDFS='" + getReceiptId(receipt) +"'");
-			statement.executeUpdate("DELETE FROM Rezept where Name='" + receipt + "'");
+			java.sql.Statement stmt = connect.createStatement();
+			stmt.executeUpdate("DELETE FROM Rezept where Name='" + receipt + "'");
+			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 		close();
+		return true;
 	}
 //--------------------------------------------------------------------------------------
 	/**
@@ -239,6 +270,32 @@ public class Database {
 			}
 		}
 		close();
+	}
+//------------------------------------------------------------------------------------------------------------------------------
+	/**
+	 * Methode um Zutat zu löschen, falls die Zutat mit einem Rezept verlinkt ist, wird false zurückgegeben
+	 * ansonsten true
+	 * @param ingredient
+	 * @return boolean
+	 */
+	public boolean removeIngredients(String ingredient){
+		connect();
+		ResultSet query;
+		try {
+			query = statement.executeQuery("Select * FROM Zutaten_Rezept where RezeptIDFS='" + getIngredientsId(ingredient) +"'");
+			if (!query.next()){
+				statement.executeUpdate("DELETE FROM Zutat where Name='" + ingredient + "'");
+			}
+			else {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		close();
+		return true;
 	}
 //---------------------------------------------------------------------------------------------
 	/**
@@ -264,10 +321,4 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-//---------------------------------------------------------------------------------------------	
-	//Bereich Ã¼berflÃ¼ssig?????
-	public static void main(String[] args) {
-		new Database();
-	}
-//--------------------------------------------------------------------------------------------	
 }

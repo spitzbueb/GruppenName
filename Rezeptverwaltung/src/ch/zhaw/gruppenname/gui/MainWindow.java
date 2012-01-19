@@ -4,7 +4,7 @@
  * l
  * 
  */
-package ch.zhaw.gruppenname.application;
+package ch.zhaw.gruppenname.gui;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -13,8 +13,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,9 +23,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+
+import ch.zhaw.gruppenname.application.Receipe;
 import ch.zhaw.gruppenname.database.Database;
 
 public class MainWindow {
@@ -48,30 +49,25 @@ public class MainWindow {
 	/**
 	 * Konstruktor
 	 */
-	public MainWindow()
-	{
+	public MainWindow(){
 		frame = new JFrame("Rezepteverwaltung");
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
 		
-		Database db = new Database();				//Datenbank-Objekt fÃ¼r Operationen
 		
 		//Dropdownbox und Button werden generiert
 		load = new JButton("Laden");
 		dropdown = new JComboBox();
 		
 		//Dropdownbox abfÃ¼llen mit Werten aus Datenbank
-		for (String string:db.getAllTitles())
-		{
+		for (String string:Receipe.getAllNames()){
 			dropdown.addItem(string);
 		}
 		
 		//Funktion des Buttons definieren
-		load.addActionListener(new ActionListener()
-		{
+		load.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
+			public void actionPerformed(ActionEvent arg0){
 				//Schreibe die Werte von der Datenbank in die richtigen Felder
 				Database temp = new Database();
 				
@@ -83,14 +79,11 @@ public class MainWindow {
 				
 				ArrayList<String> ingredients = temp.getIngredients(temp.getReceiptId(dropdown.getSelectedItem().toString()));
 				String ingredient = null;
-				for (String string:ingredients)
-				{
-					if (ingredient==null)
-					{
+				for (String string:ingredients){
+					if (ingredient==null){
 						ingredient = string;
 					}
-					else
-					{
+					else {
 						ingredient = ingredient + "," + string;
 					}
 				}
@@ -106,11 +99,9 @@ public class MainWindow {
 		
 		JMenuItem exit = new JMenuItem("Schliessen");
 		
-		exit.addActionListener(new ActionListener()
-		{
+		exit.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
-			{
+			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				System.exit(0);
 			}			
@@ -118,24 +109,41 @@ public class MainWindow {
 		
 		JMenuItem addingRecipe = new JMenuItem("Rezept erfassen");
 		JMenuItem addingIngredients = new JMenuItem("Zutat erfassen");
-		JMenuItem deleteRecipe = new JMenuItem("Rezept lÃ¶schen");
-		JMenuItem deleteIngredients = new JMenuItem("Zutat lÃ¶schen");
+		JMenuItem deleteRecipe = new JMenuItem("Rezept löschen");
+		JMenuItem deleteIngredients = new JMenuItem("Zutat löschen");
 		
-		addingRecipe.addActionListener(new ActionListener()
-		{
+		addingRecipe.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				AddRecipe.main(null);
+			public void actionPerformed(ActionEvent arg0){
+				new AddRecipe();
 			}
 		});
 		
-		addingIngredients.addActionListener(new ActionListener()
-		{
+		addingIngredients.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				AddIngredients.main(null);
+			public void actionPerformed(ActionEvent arg0){
+				new AddIngredients();
+			}
+		});
+		
+		deleteRecipe.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				Receipe receipe = new Receipe(dropdown.getSelectedItem().toString());
+				if (receipe.remove()){
+					JOptionPane.showMessageDialog(null, dropdown.getSelectedItem() + "wurde gelöscht", "Löschvorgang", JOptionPane.INFORMATION_MESSAGE);
+					dropdown.removeItem(dropdown.getSelectedItem());
+				}
+				else {
+					JOptionPane.showMessageDialog(null, dropdown.getSelectedItem() + "wurde nicht gelöscht", "Löschvorgang", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		deleteIngredients.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				new RemoveIngredients();
 			}
 		});
 		
@@ -222,15 +230,13 @@ public class MainWindow {
 	 * in das Zutaten-Textfeld
 	 * @param i
 	 */
-	public void setIngredientsField(int i)
-	{
+	public void setIngredientsField(int i){
 		Database temp = new Database();
 		ArrayList<String> Stringlist = new ArrayList<String>();
 		String liste = "";
 		Stringlist = temp.getIngredients(i);
 		
-		for (String string : Stringlist)
-		{
+		for (String string : Stringlist){
 			liste = liste + "," + string;
 		}
 		
@@ -241,8 +247,7 @@ public class MainWindow {
 	 * Methode zeichnet gesperrte Textfeld fÃ¼r Anleitung
 	 * @return JTextArea
 	 */
-	public JTextArea procedurefield()
-	{
+	public JTextArea procedurefield(){
 		procedurefield = new JTextArea(10,30);
 		procedurefield.setEditable(false);
 		return procedurefield;
@@ -252,8 +257,7 @@ public class MainWindow {
 	 * Methode zeichnet gesperrtes Textfeld fÃ¼r Beschreibung
 	 * @return JTextArea
 	 */
-	public JTextArea descriptionfield()
-	{
+	public JTextArea descriptionfield(){
 		descriptionfield = new JTextArea(10,30);
 		descriptionfield.setEditable(false);
 		return descriptionfield;
@@ -263,8 +267,7 @@ public class MainWindow {
 	 * Methode zeichnet gesperrtes Textfeld fÃ¼r Bewertung
 	 * @return JTextField
 	 */
-	public JTextField votefield()
-	{
+	public JTextField votefield(){
 		votefield = new JTextField(20);
 		votefield.setEditable(false);
 		return votefield;
@@ -274,8 +277,7 @@ public class MainWindow {
 	 * Methode zeichnet gesperrtes Textfeld fÃ¼r Zutaten
 	 * @return JTextField
 	 */
-	public JTextField ingredientsfield()
-	{
+	public JTextField ingredientsfield(){
 		ingredientsfield = new JTextField(20);
 		ingredientsfield.setEditable(false);
 		return ingredientsfield;
@@ -285,8 +287,7 @@ public class MainWindow {
 	 * Methode zeichnet den Titel
 	 * @return JLabel
 	 */
-	public JLabel title()
-	{
+	public JLabel title(){
 		JLabel title = new JLabel("Rezeptverwaltung");
 		title.setFont(new Font("Arial",1,20));
 		return title;
