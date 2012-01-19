@@ -90,6 +90,25 @@ public class Database {
 		return ingredients;
 		
 	}
+	
+	public ArrayList<String> getReceipes(int id)
+	{
+		connect();
+		ArrayList<String> receipes = new ArrayList<String>();
+		
+		try{
+			ResultSet query = statement.executeQuery("Select Name from Rezept,Zutaten_Rezept WHERE Rezept.ID = Zutaten_Rezept.RezeptIDFS AND Zutaten_Rezept.ZutatIDFS = " + id);
+			while(query.next())
+			{
+				receipes.add(query.getString("Name"));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		close();
+		return receipes;
+		
+	}
 //--------------------------------------------------------------------------------------------
 	/**
 	 * Methode um all Rezeptnamen aus der Datenbank zu bekommen

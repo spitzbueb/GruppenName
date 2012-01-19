@@ -7,4 +7,5 @@ public interface Mutation {
 	
 	public String getName();
 	
+	public int getID();
 }

@@ -42,6 +42,14 @@ public class Ingredient implements Mutation{
 		return name;
 	}
 	/**
+	 * Gibt ID zurück
+	 * @return int
+	 */
+	@Override
+	public int getID(){
+		return database.getIngredientsId(name);
+	}
+	/**
 	 * Gibt alle Zutaten in Liste zurück
 	 * @return ArrayList<String>
 	 */

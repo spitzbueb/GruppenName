@@ -56,7 +56,22 @@ public class Receipe implements Mutation{
 	public String getName(){
 		return name;
 	}
-	
+	/**
+	 * Gibt ID zurück
+	 * @return int
+	 */
+	@Override
+	public int getID(){
+		return database.getReceiptId(name);
+	}
+	/**
+	 * Gibt Rezepte mit gleicher Zutat zurück
+	 * @return ArrayList<String>
+	 * 
+	 */
+	public static ArrayList<String> getReceipes(int id){
+		return new Database().getReceipes(id);
+	}
 	/**
 	 * Gibt alle Rezepte züruck
 	 * @return ArrayList<String>

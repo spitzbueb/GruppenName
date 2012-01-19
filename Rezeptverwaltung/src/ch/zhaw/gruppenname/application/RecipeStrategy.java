@@ -1,34 +1,32 @@
-package ch.zhaw.gruppenname.interfaces;
+package ch.zhaw.gruppenname.application;
 
 import java.util.ArrayList;
 
 import ch.zhaw.gruppenname.database.Database;
+import ch.zhaw.gruppenname.interfaces.ISearchStrategy;
 
 public class RecipeStrategy implements ISearchStrategy {
 
 	@Override
 	public String getRecipe(String name) {
 		// TODO Auto-generated method stub
-		Database temp = new Database();
+		
 		ArrayList<String> list = new ArrayList<String>();
 		boolean found = false;
 		
-		list = temp.getAllTitles();
+		list = Receipe.getAllNames();
 		
-		for (String string:list)
-		{
-			if (string.equals(name) && found==false)
-			{
-				name = string;
-				found = true;
-			}
-			else
-			{
-				name = "not found";
+		for (String string:list){
+			while (name.isEmpty() && !found){
+				if (string.equals(name)){
+					name = string;
+					found = true;
+				}
+				else{
+					name = "not found";
+				}
 			}
 		}
-		
 		return name;
 	}
-
 }
